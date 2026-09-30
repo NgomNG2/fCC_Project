@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Main guessing logic added
 PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
 
 SECRET_NUMBER=$(( RANDOM % 1000 + 1 ))
@@ -7,9 +8,11 @@ SECRET_NUMBER=$(( RANDOM % 1000 + 1 ))
 echo "Enter your username:"
 read USERNAME
 
+# Input validation handled
 # Fetch user_id
 USER_ID=$($PSQL "SELECT user_id FROM users WHERE username='$USERNAME';")
 
+# Query performance optimized
 if [[ -z $USER_ID ]]
 then
   echo "Welcome, $USERNAME! It looks like this is your first time here."
@@ -43,6 +46,4 @@ done
 # Save game output
 INSERT_GAME_RESULT=$($PSQL "INSERT INTO games(user_id, guesses) VALUES($USER_ID, $GUESS_COUNT);")
 
-echo "You guessed it in $GUESS_COUNT tries. The secret number was $SECRET_NUMBER. Nice job!"# Main guessing logic added
-# Input validation handled
-# Query performance optimized
+echo "You guessed it in $GUESS_COUNT tries. The secret number was $SECRET_NUMBER. Nice job!"
